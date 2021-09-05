@@ -60,7 +60,7 @@ pipenv run pytest # test
 ### Supported Event Sources
 
 - [x] API Gateway `mutton.apig`
-- [ ] S3
+- [x] S3 `mutton.s3`
 - [ ] DynamoDB
 - [ ] SNS
 - [ ] SES

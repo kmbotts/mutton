@@ -85,7 +85,7 @@ class Response(collections.MutableMapping):
 
 
 class EventRequest(Request, metaclass=ABCMeta):
-    """SQS Event Request class."""
+    """Event Request class."""
 
     def __init__(self, event, context):
         """Initialize the class."""
