@@ -9,8 +9,3 @@ class SQSEventHandler(mutton.EventHandler, metaclass=ABCMeta):
         """Initialize the handler."""
         super().__init__(mutton.sqs.SQSEventRequest)
 
-    def pre_process_record(self, record):
-        pass
-
-    def post_process_record(self, record):
-        pass
