@@ -67,7 +67,7 @@ def test_apig_response():
 def test_apig_handler():
     """Test APIG Handler"""
 
-    class TestHandler(mutton.APIGatewayHandler):
+    class APITestHandler(mutton.APIGatewayHandler):
         """Test handler."""
 
         def pre_process_record(self, record):
@@ -86,7 +86,7 @@ def test_apig_handler():
         def handle_exception(self, record, exception):
             raise Exception("Unexpected Error Occurred!")
 
-    test_handler = TestHandler()
+    test_handler = APITestHandler()
     request_object = {
         'body': 'hello',
         'headers': {

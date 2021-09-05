@@ -8,7 +8,7 @@ import mutton.sqs as mutton
 def test_sqs_event_handler():
     """Test SQS Handler"""
 
-    class TestHandler(mutton.SQSEventHandler):
+    class SQSTestHandler(mutton.SQSEventHandler):
         """Test handler."""
 
         def pre_process_record(self, record):
@@ -35,7 +35,7 @@ def test_sqs_event_handler():
         def handle_exception(self, record, exception):
             raise Exception("Unexpected Error Occurred!")
 
-    test_handler = TestHandler()
+    test_handler = SQSTestHandler()
     request_object = {
         'Records': [
             {
@@ -67,7 +67,7 @@ def test_sqs_event_handler():
 def test_sqs_event_handler_exception():
     """Test SQS Handler"""
 
-    class TestHandler(mutton.SQSEventHandler):
+    class SQSTestHandler(mutton.SQSEventHandler):
         """Test handler."""
 
         def process_record(self, record):
@@ -90,7 +90,7 @@ def test_sqs_event_handler_exception():
             x = exception.args
             assert str(x).__contains__("Throw it!")
 
-    test_handler = TestHandler()
+    test_handler = SQSTestHandler()
     request_object = {
         'Records': [
             {

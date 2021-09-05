@@ -17,7 +17,7 @@ def test_base_request():
 def test_base_handler():
     """Test base Handler."""
 
-    class TestHandler(mutton.Handler):
+    class BaseTestHandler(mutton.Handler):
         """Test handler."""
 
         def pre_process_record(self, record):
@@ -35,7 +35,7 @@ def test_base_handler():
         def handle_exception(self, record, exception):
             raise Exception("Unexpected Error Occurred!")
 
-    test_handler = TestHandler(mutton.Request)
+    test_handler = BaseTestHandler(mutton.Request)
     request_object = {'value': 1.0}
     invocation = test_handler(request_object, {})
 

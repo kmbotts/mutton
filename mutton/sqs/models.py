@@ -9,7 +9,7 @@ class SQSEventRequest(mutton.EventRequest):
     def build_records(self):
         raw = self.event['Records']
         for record in raw:
-            record = mutton.sqs.SQSMessage(record)
+            record = SQSMessage(record)
             self.add_record(record)
 
 

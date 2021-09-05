@@ -1,4 +1,6 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, ABCMeta
+
+import mutton
 
 
 class Handler(ABC):
@@ -44,4 +46,23 @@ class Handler(ABC):
 
     @abstractmethod
     def handle_exception(self, record, exception):
+        pass
+
+
+class EventHandler(Handler, metaclass=ABCMeta):
+
+    def __init__(self, request_class):
+        """Initialize the handler."""
+        super().__init__(request_class)
+
+    def perform(self, request, **kwargs):
+        for record in request.records:
+            self.process(record)
+
+        return mutton.EventResponse()
+
+    def pre_process_record(self, record):
+        pass
+
+    def post_process_record(self, record):
         pass
