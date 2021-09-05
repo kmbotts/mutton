@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=unused-argument
 """Test base objects."""
-import mutton.apig as mutton
 import pytest
+
+import mutton.apig as mutton
 
 
 def test_apig_request():
@@ -69,12 +70,21 @@ def test_apig_handler():
     class TestHandler(mutton.APIGatewayHandler):
         """Test handler."""
 
-        def perform(self, request, **k):
+        def pre_process_record(self, record):
+            assert record.body == "hello"
+
+        def process_record(self, record):
             """Test perform method."""
             response = mutton.APIGatewayResponse('', 200)
-            response.body = request.path.user_id + request.query.filter_x
+            response.body = record.path.user_id + record.query.filter_x
             response.headers = {'X-Custom': 'test'}
             return response
+
+        def post_process_record(self, record):
+            assert record.body == "hello"
+
+        def handle_exception(self, record, exception):
+            raise Exception("Unexpected Error Occurred!")
 
     test_handler = TestHandler()
     request_object = {

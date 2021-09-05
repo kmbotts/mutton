@@ -1,4 +1,5 @@
 import collections
+from abc import ABCMeta, abstractmethod
 
 
 class Request:
@@ -81,3 +82,35 @@ class Response(collections.MutableMapping):
     def serialized(self):
         """Stub serializer."""
         return self.body
+
+
+class EventRequest(Request, metaclass=ABCMeta):
+    """SQS Event Request class."""
+
+    def __init__(self, event, context):
+        """Initialize the class."""
+        super().__init__(event, context)
+        self.__records = []
+        self.build_records()
+
+    @abstractmethod
+    def build_records(self):
+        pass
+
+    @property
+    def records(self):
+        return self.__records
+
+    def add_record(self, record):
+        self.__records.append(record)
+
+
+class EventResponse(Response):
+    """Event Response class."""
+
+    def __init__(self):
+        super().__init__()
+
+    @property
+    def serialized(self):
+        return None

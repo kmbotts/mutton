@@ -20,13 +20,22 @@ def test_base_handler():
     class TestHandler(mutton.Handler):
         """Test handler."""
 
-        def perform(self, request, **k):
+        def pre_process_record(self, record):
+            assert record.event['value'] == 1.0
+
+        def process_record(self, record):
             """Test perform method."""
             response = mutton.Response()
-            response.body = self.request.event['value']
+            response.body = record.event['value']
             return response
 
-    test_handler = TestHandler()
+        def post_process_record(self, record):
+            assert record.event['value'] == 1.0
+
+        def handle_exception(self, record, exception):
+            raise Exception("Unexpected Error Occurred!")
+
+    test_handler = TestHandler(mutton.Request)
     request_object = {'value': 1.0}
     invocation = test_handler(request_object, {})
 

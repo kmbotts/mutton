@@ -3,32 +3,14 @@ from cached_property import cached_property
 import mutton
 
 
-class SQSEventRequest(mutton.Request):
+class SQSEventRequest(mutton.EventRequest):
     """SQS Event Request class."""
 
-    def __init__(self, event, context):
-        """Initialize the class."""
-        super().__init__(event, context)
-        self.__records = event['Records']
-
-    @cached_property
-    def records(self):
-        records = []
-        for record in self.__records:
-            message = mutton.sqs.SQSMessage(record)
-            records.append(message)
-        return records
-
-
-class SQSEventResponse(mutton.Response):
-    """SQS Event Response class."""
-
-    def __init__(self):
-        super().__init__()
-
-    @property
-    def serialized(self):
-        return None
+    def build_records(self):
+        raw = self.event['Records']
+        for record in raw:
+            record = mutton.sqs.SQSMessage(record)
+            self.add_record(record)
 
 
 class SQSMessage(object):
